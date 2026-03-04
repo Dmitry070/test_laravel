@@ -18,7 +18,7 @@ php artisan serve
 
 ### 3. Открыть в браузере тестер API
 ```
-http://127.0.0.1:8000/test
+http://127.0.0.1:8000/api/test
 ```
 
 ---
@@ -70,7 +70,7 @@ curl -X DELETE http://127.0.0.1:8000/api/posts/1
 
 ## 🧪 Интерактивный HTML Тестер
 
-Откройте в браузере: **http://127.0.0.1:8000/test**
+Откройте в браузере: **http://127.0.0.1:8000/api/test**
 
 ### Возможности:
 - ✅ Создавать, читать, обновлять и удалять посты
@@ -101,6 +101,17 @@ example-app/
 │       └── PostSeeder.php             ← Заполнение БД данными
 └── ...другие файлы Laravel
 ```
+
+---
+
+## 📖 Важно: Правильные ответы для API
+
+> ❌ Для API НЕ ИСПОЛЬЗУЙТЕ: `return view()` или `return response('', 200)`  
+> ✅ ВСЕГДА ИСПОЛЬЗУЙТЕ: `return response()->json($data)`
+
+Подробное руководство смотрите в файлах:
+- **[API_RESPONSES_GUIDE.md](./API_RESPONSES_GUIDE.md)** - полное руководство
+- **[API_CHEATSHEET.md](./API_CHEATSHEET.md)** - быстрая справка
 
 ---
 
@@ -141,7 +152,10 @@ php artisan db:seed --class=PostSeeder
 # Пересоздать БД с данными
 php artisan migrate:fresh --seed
 
-# Очистить кеши
+# ✨ НОВОЕ: Очистить таблицу posts и сбросить ID на 1
+php artisan posts:reset
+
+# Очистить кэши
 php artisan optimize:clear
 
 # Интерактивная оболочка

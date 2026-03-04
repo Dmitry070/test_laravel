@@ -7,15 +7,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Маршрут для интерактивного API тестера
-Route::get('/test', function () {
-    return view('test');
-});
-
-// Простой маршрут, возвращающий строку
+// ✅ Правильно для простых текстовых ответов
 Route::get('/hello-inline', function () {
     return 'Hello, Laravel!';
 });
 
-// Маршрут на контроллер
+// ✅ Правильно для контроллера, возвращающего view
 Route::get('/hello', [HelloController::class, 'index']);
+
+

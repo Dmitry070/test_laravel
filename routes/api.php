@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\TestController;
 
 /**
  * ==============================================
@@ -11,6 +12,15 @@ use App\Http\Controllers\Api\PostController;
  *
  * Все маршруты имеют префикс /api и используют middleware 'api'
  * который автоматически преобразует ответы в JSON
+ *
+ * ❌ Так НЕ работает для API (в контроллере):
+ * return view('test');           // Вернёт HTML вместо JSON!
+ * return response('', 200);      // Вернёт текст вместо JSON!
+ *
+ * ✅ Правильно для API:
+ * return response()->json($data);           // Вернёт JSON с данными
+ * return response()->json($data, 201);      // JSON с кодом 201 (Created)
+ * return response(null, 204);               // Пустой JSON 204 (No Content)
  */
 
 /**
@@ -47,4 +57,19 @@ use App\Http\Controllers\Api\PostController;
  *    curl -X DELETE http://127.0.0.1:8000/api/posts/1
  */
 Route::apiResource('posts', PostController::class);
+
+/**
+ * ==============================================
+ * МАРШРУТ ДЛЯ ТЕСТИРОВАНИЯ (ПОЛНЫЙ CRUD)
+ * ==============================================
+ *
+ * GET    /api/test       - Получить все посты
+ * POST   /api/test       - Создать новый пост
+ * GET    /api/test/{id}  - Получить один пост
+ * PUT    /api/test/{id}  - Обновить пост
+ * DELETE /api/test/{id}  - Удалить пост
+ */
+Route::apiResource('test', TestController::class, [
+    'parameters' => ['test' => 'post']
+]);
 

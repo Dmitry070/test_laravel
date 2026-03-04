@@ -12,6 +12,15 @@ use Illuminate\Http\Response;
  *
  * Этот контроллер реализует полный CRUD (Create, Read, Update, Delete) для постов.
  * Все методы возвращают JSON ответы.
+ *
+ * ❌ Так НЕ работает для API:
+ * return view('test');           // Вернёт HTML вместо JSON
+ * return response('', 200);      // Вернёт пустой текст вместо JSON
+ *
+ * ✅ Правильно для API контроллера:
+ * return response()->json($data);           // JSON с данными и кодом 200
+ * return response()->json($data, 201);      // JSON с кодом 201 (Created)
+ * return response(null, 204);               // Пустой ответ с кодом 204 (No Content)
  */
 class PostController extends Controller
 {
@@ -31,9 +40,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        // Получаем все посты, сортируем по дате создания (новые первыми)
-        // и делим на страницы по 10 штук
-        $posts = Post::orderBy('created_at', 'desc')->paginate(10);
+        $posts = Post::all();
 
         return response()->json($posts);
     }
